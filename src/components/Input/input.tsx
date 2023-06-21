@@ -24,7 +24,7 @@ export default function Input({
       </label>
       <input
         id={labelText}
-        className="bg-gray-300 placeholder-black text-lg rounded-lg py-2"
+        className="bg-gray-300 placeholder-black text-lg rounded-lg p-2"
         type={type}
         placeholder={placeholder}
         {...register(registerInput)}

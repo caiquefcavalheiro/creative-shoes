@@ -2,8 +2,10 @@
 
 import { useModalState } from "@/hooks/ModalStates/state";
 import { useUser } from "@/hooks/UserStates/state";
-import { userLogin } from "@/schemas/user/schema";
+import { userLogin, userSchemaLogin } from "@/schemas/user/schema";
 import { useForm } from "react-hook-form";
+import Input from "../Input/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function LoginUserForm() {
   const {
@@ -16,30 +18,41 @@ export default function LoginUserForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<userLogin>();
+  } = useForm<userLogin>({ resolver: zodResolver(userSchemaLogin) });
 
   const onSubmit = handleSubmit(async (data: userLogin) => {
-    const token = await loginUser(data);
-    if (token) {
+    const response = await loginUser(data);
+    if (!!response.error) {
+      //error (toast)
+    } else {
+      localStorage.setItem("@token", JSON.stringify(response));
       modalState.actions.setLoginState(false);
     }
   });
 
   return (
-    <form className="flex flex-col" onSubmit={onSubmit}>
-      <input
-        required
+    <form onSubmit={onSubmit} className="flex flex-col justify-center gap-7">
+      <Input
         type="text"
-        placeholder="digite seu email"
-        {...register("email")}
+        placeholder="Digite seu email"
+        errors={errors}
+        labelText="Email"
+        register={register}
+        registerInput="email"
       />
-      <input
-        required
+      <Input
         type="password"
-        placeholder="digite sua senha"
-        {...register("password")}
+        placeholder="Digite sua senha"
+        errors={errors}
+        labelText="Senha"
+        register={register}
+        registerInput="password"
       />
-      <button type="submit">Login</button>
+      <button
+        className="bg-gray-300 py-2 rounded-lg text-black hover:text-white hover:bg-black transition-all"
+        type="submit">
+        Login
+      </button>
     </form>
   );
 }

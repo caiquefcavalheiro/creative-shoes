@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { create } from "zustand";
 import {
   userLogin,
@@ -13,7 +13,7 @@ interface useUsersProps {
   actions: {
     getUsers: () => Promise<void>;
     createUser: (data: userRegister) => Promise<void>;
-    loginUser: (data: userLogin) => Promise<boolean>;
+    loginUser: (data: userLogin) => Promise<any>;
   };
 }
 
@@ -30,16 +30,12 @@ const createUser = async (data: userRegister) => {
 };
 
 const loginUser = async (data: userLogin) => {
-  const token = await axios
+  const response = await axios
     .post("/api/login", data)
     .then((response) => response)
-    .catch((error) => console.log("error"));
+    .catch((error) => error);
 
-  if (typeof token === "string") {
-    localStorage.setItem("token", token);
-    return true;
-  }
-  return false;
+  return response.data;
 };
 
 export const useUser = create<useUsersProps>((set) => ({

@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 import { userSchemaResponse } from "@/schemas/user/schema";
 import { prisma } from "../../../../db";
+import jwt from "jsonwebtoken";
 
 async function POST(request: Request) {
   const body = await request.json();
@@ -22,7 +23,10 @@ async function POST(request: Request) {
   }
 
   const responseUser = userSchemaResponse.parse(user);
-  return NextResponse.json(responseUser);
+
+  const token = jwt.sign(responseUser, process.env.SECRET_KEY!);
+
+  return NextResponse.json(token);
 }
 
 export { POST };
