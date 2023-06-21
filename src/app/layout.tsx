@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Rubik } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 const inter = Rubik({ subsets: ["latin"] });
 
@@ -15,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Toaster />
+        {children}
+      </body>
     </html>
   );
 }

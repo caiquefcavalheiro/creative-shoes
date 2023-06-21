@@ -6,11 +6,14 @@ import { userLogin, userSchemaLogin } from "@/schemas/user/schema";
 import { useForm } from "react-hook-form";
 import Input from "../Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/ToastStates/state";
 
 export default function LoginUserForm() {
   const {
     actions: { loginUser },
   } = useUser();
+
+  const { success, error } = useToast();
 
   const modalState = useModalState();
 
@@ -23,10 +26,11 @@ export default function LoginUserForm() {
   const onSubmit = handleSubmit(async (data: userLogin) => {
     const response = await loginUser(data);
     if (!!response.error) {
-      //error (toast)
+      error(response.error);
     } else {
       localStorage.setItem("@token", JSON.stringify(response));
       modalState.actions.setLoginState(false);
+      success("Logado com sucesso!");
     }
   });
 
