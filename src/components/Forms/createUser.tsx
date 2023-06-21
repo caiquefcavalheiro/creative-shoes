@@ -21,7 +21,6 @@ export default function CreateUserForm() {
   } = useForm<userRegister>({ resolver: zodResolver(userSchemaRegister) });
 
   const onSubmit = handleSubmit(async (data: userRegister) => {
-    console.log(errors);
     await createUser(data);
     modalState.actions.setRegisterState(false);
   });
