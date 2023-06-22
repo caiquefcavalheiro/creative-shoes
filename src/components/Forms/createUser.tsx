@@ -6,11 +6,14 @@ import { userRegister, userSchemaRegister } from "@/schemas/user/schema";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../Input/input";
+import { useToast } from "@/hooks/ToastStates/state";
 
 export default function CreateUserForm() {
   const {
     actions: { createUser },
   } = useUser();
+
+  const { success, error } = useToast();
 
   const modalState = useModalState();
 
@@ -21,7 +24,14 @@ export default function CreateUserForm() {
   } = useForm<userRegister>({ resolver: zodResolver(userSchemaRegister) });
 
   const onSubmit = handleSubmit(async (data: userRegister) => {
-    await createUser(data);
+    try {
+      await createUser(data);
+      success("Conta criada com sucesso");
+    } catch (err) {
+      if (err instanceof Error) {
+        error(err.message);
+      }
+    }
     modalState.actions.setRegisterState(false);
   });
 

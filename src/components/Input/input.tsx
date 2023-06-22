@@ -7,6 +7,7 @@ interface InputProps {
   placeholder: string;
   type: string;
   errors: FieldErrors<any>;
+  accept?: string;
 }
 
 export default function Input({
@@ -15,6 +16,7 @@ export default function Input({
   registerInput,
   errors,
   type,
+  accept,
   register,
 }: InputProps) {
   return (
@@ -24,6 +26,7 @@ export default function Input({
       </label>
       <input
         id={labelText}
+        accept={accept}
         className="bg-gray-300 placeholder-black text-lg rounded-lg p-2"
         type={type}
         placeholder={placeholder}

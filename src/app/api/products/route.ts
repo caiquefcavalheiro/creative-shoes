@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../db";
 import {
-  productSchema,
+  productSchemaResponse,
   productSchemaResponses,
 } from "@/schemas/products/schema";
 
@@ -15,15 +15,26 @@ async function GET(request: Request) {
 
 async function POST(request: Request) {
   const body = await request.json();
-  const { name, description, price } = body;
+  const { name, description, price, image } = body;
 
-  const product = await prisma.product.create({
-    data: { name, description, price },
+  const findProductName = await prisma.product.findFirst({
+    where: { name: name },
   });
 
-  const productResponse = productSchema.parse(product);
+  if (findProductName) {
+    return NextResponse.json(
+      { message: "Este nome de produto já está em uso" },
+      { status: 400 }
+    );
+  }
 
-  return NextResponse.json(productResponse);
+  const product = await prisma.product.create({
+    data: { name, description, price, image },
+  });
+
+  const productResponse = productSchemaResponse.parse(product);
+
+  return NextResponse.json(productResponse, { status: 201 });
 }
 
 export { GET, POST };

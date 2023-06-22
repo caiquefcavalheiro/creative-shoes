@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import {
   userLogin,
@@ -23,10 +23,16 @@ const getUsers = async () => {
 };
 
 const createUser = async (data: userRegister) => {
-  await axios
-    .post("/api/user", data)
+  const response = await axios
+    .post("/api/user", data, {
+      headers: { "Content-Type": "application/json" },
+    })
     .then((response) => response)
-    .catch(() => console.log("error"));
+    .catch((err) => err);
+
+  if (response instanceof AxiosError) {
+    throw new Error(response.response?.data.message);
+  }
 };
 
 const loginUser = async (data: userLogin) => {
