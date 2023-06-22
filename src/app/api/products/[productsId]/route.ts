@@ -19,7 +19,10 @@ async function GET(request: Request, { params }: Params) {
   });
 
   if (!product) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Produto não encontrado" },
+      { status: 404 }
+    );
   }
 
   const productResponse = productSchema.parse(product);
@@ -37,7 +40,10 @@ async function PATCH(request: Request, { params }: Params) {
   });
 
   if (!product) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Produto não encontrado" },
+      { status: 404 }
+    );
   }
 
   const { name, description, price, image } = body;
@@ -66,7 +72,10 @@ async function DELETE(request: Request, { params }: Params) {
   });
 
   if (!product) {
-    return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Produto não encontrado" },
+      { status: 404 }
+    );
   }
 
   await prisma.product.delete({

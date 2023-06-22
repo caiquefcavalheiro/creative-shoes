@@ -27,12 +27,12 @@ export default function CreateUserForm() {
     try {
       await createUser(data);
       success("Conta criada com sucesso");
+      modalState.actions.setRegisterState(false);
     } catch (err) {
       if (err instanceof Error) {
         error(err.message);
       }
     }
-    modalState.actions.setRegisterState(false);
   });
 
   return (

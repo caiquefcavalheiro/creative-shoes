@@ -7,6 +7,15 @@ async function POST(request: Request) {
   const body = await request.json();
   const { name, email, password } = body;
 
+  const emailInUse = await prisma.user.findFirst({ where: { email: email } });
+
+  if (emailInUse) {
+    return NextResponse.json(
+      { message: "Este email já está em uso" },
+      { status: 400 }
+    );
+  }
+
   const hashedPassword = await bcrypt.hash(password, 12);
 
   const user = await prisma.user.create({
@@ -15,7 +24,7 @@ async function POST(request: Request) {
 
   const responseUser = userSchemaResponse.parse(user);
 
-  return NextResponse.json(responseUser);
+  return NextResponse.json(responseUser, { status: 201 });
 }
 
 async function GET(request: Request) {

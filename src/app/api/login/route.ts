@@ -13,13 +13,19 @@ async function POST(request: Request) {
   });
 
   if (!user) {
-    return NextResponse.json({ error: "name or password are incorrect" });
+    return NextResponse.json(
+      { message: "Email ou senha estão incorretos" },
+      { status: 400 }
+    );
   }
 
   const hashedPassword = await bcrypt.compare(password, user.password);
 
   if (!hashedPassword) {
-    return NextResponse.json({ error: "name or password are incorrect" });
+    return NextResponse.json(
+      { message: "Email ou senha estão incorretos" },
+      { status: 400 }
+    );
   }
 
   const responseUser = userSchemaResponse.parse(user);

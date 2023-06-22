@@ -1,3 +1,5 @@
+"use client";
+
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 import {
@@ -40,6 +42,10 @@ const loginUser = async (data: userLogin) => {
     .post("/api/login", data)
     .then((response) => response)
     .catch((error) => error);
+
+  if (response instanceof AxiosError) {
+    throw new Error(response.response?.data.message);
+  }
 
   return response.data;
 };

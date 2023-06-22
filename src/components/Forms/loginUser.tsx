@@ -24,13 +24,15 @@ export default function LoginUserForm() {
   } = useForm<userLogin>({ resolver: zodResolver(userSchemaLogin) });
 
   const onSubmit = handleSubmit(async (data: userLogin) => {
-    const response = await loginUser(data);
-    if (!!response.error) {
-      error(response.error);
-    } else {
+    try {
+      const response = await loginUser(data);
       localStorage.setItem("@token", JSON.stringify(response));
       modalState.actions.setLoginState(false);
-      success("Logado com sucesso!");
+      success("Logado com sucesso");
+    } catch (err) {
+      if (err instanceof Error) {
+        error(err.message);
+      }
     }
   });
 
