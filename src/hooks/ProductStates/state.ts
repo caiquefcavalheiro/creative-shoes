@@ -17,6 +17,7 @@ interface useProductProps {
     getProducts: () => Promise<void>;
     createProduct: (data: productRegister) => Promise<productResponse>;
     patchProduct: (id: string, data: productPatch) => Promise<productPatch>;
+    deleteProduct: (id: string) => Promise<void>;
   };
 }
 
@@ -52,6 +53,16 @@ const patchProduct = async (id: string, data: productPatch) => {
   return response;
 };
 
+const deleteProduct = async (id: string) => {
+  const response = await axios
+    .delete(`api/products/${id}`)
+    .then((response) => response.data);
+
+  if (response instanceof AxiosError) {
+    throw new Error(response.response?.data.message);
+  }
+};
+
 export const useProduct = create<useProductProps>((set) => ({
   state: {
     products: [],
@@ -68,6 +79,9 @@ export const useProduct = create<useProductProps>((set) => ({
     patchProduct: async (id, data) => {
       const response = await patchProduct(id, data);
       return response;
+    },
+    deleteProduct: async (id) => {
+      await deleteProduct(id);
     },
   },
 }));
