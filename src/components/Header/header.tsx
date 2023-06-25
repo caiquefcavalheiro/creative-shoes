@@ -37,7 +37,7 @@ export default function Header() {
             <menu
               className={`${
                 menuOpen ? "flex" : "hidden"
-              } absolute flex-col w-[200px] top-12 lg:right-auto animate-menu-open`}>
+              } absolute flex-col w-[200px] top-12 lg:right-auto animate-menu-open z-10`}>
               <button
                 onClick={() => {
                   modalState.actions.setRegisterState(true);

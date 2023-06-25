@@ -10,7 +10,7 @@ interface ProductProps {
 }
 
 export default function ProductCard({ product }: ProductProps) {
-  const { name, price, image, description } = product;
+  const { name, price, image } = product;
 
   const {
     actions: { selectProduct },

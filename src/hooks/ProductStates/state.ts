@@ -6,7 +6,6 @@ import {
   productResponse,
   productResponses,
 } from "@/schemas/products/schema";
-import { Product } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 

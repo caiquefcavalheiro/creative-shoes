@@ -15,7 +15,7 @@ module.exports = {
       },
       colors: {
         "black-opacity95": "#00000095",
-        "black-opacity90": "#00000090",
+        "black-opacity90": "#000000c4",
         "black-opacity60": "#00000060",
         "white-opacity40": "#ffffff40",
       },
