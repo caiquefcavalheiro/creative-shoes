@@ -10,7 +10,7 @@ export default function Header() {
   const modalState = useModalState();
 
   return (
-    <header className="fixed gap-4 flex flex-col lg:flex-row center justify-around bg-transparent w-full p-4">
+    <header className="gap-4 flex flex-col lg:flex-row center justify-around bg-transparent w-full p-4">
       <h1 className="text-[2rem] text-center font-bold text-white">
         Creative Store Shoes
       </h1>
@@ -42,12 +42,12 @@ export default function Header() {
                 onClick={() => {
                   modalState.actions.setRegisterState(true);
                 }}
-                className="p-2 bg-black-opacity80 text-white border-b-2 solid border-white rounded-t-lg">
+                className="p-2 bg-black-opacity90 text-white border-b-2 solid border-white rounded-t-lg">
                 Criar Conta
               </button>
               <button
                 onClick={() => modalState.actions.setLoginState(true)}
-                className="p-2 bg-black-opacity80 text-white rounded-b-lg">
+                className="p-2 bg-black-opacity90 text-white rounded-b-lg">
                 Fazer Login
               </button>
             </menu>

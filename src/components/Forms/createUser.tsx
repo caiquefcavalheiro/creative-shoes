@@ -36,7 +36,9 @@ export default function CreateUserForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col justify-center gap-7">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col justify-center gap-7 animate-modal-appear">
       <Input
         register={register}
         labelText="Nome"

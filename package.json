@@ -21,6 +21,7 @@
     "dotenv": "^16.3.1",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
+    "framer-motion": "^10.12.17",
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
     "next": "13.4.6",

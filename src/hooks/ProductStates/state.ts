@@ -6,11 +6,13 @@ import {
   productResponse,
   productResponses,
 } from "@/schemas/products/schema";
+import { Product } from "@prisma/client";
 import axios, { AxiosError } from "axios";
 import { create } from "zustand";
 
 interface useProductProps {
   state: {
+    product: productResponse;
     products: productResponses;
   };
   actions: {
@@ -18,6 +20,7 @@ interface useProductProps {
     createProduct: (data: productRegister) => Promise<productResponse>;
     patchProduct: (id: string, data: productPatch) => Promise<productPatch>;
     deleteProduct: (id: string) => Promise<void>;
+    selectProduct: (data: any) => void;
   };
 }
 
@@ -65,12 +68,16 @@ const deleteProduct = async (id: string) => {
 
 export const useProduct = create<useProductProps>((set) => ({
   state: {
+    product: {} as productResponse,
     products: [],
   },
   actions: {
+    selectProduct: (data) => {
+      set((state) => (state.state.product = data));
+    },
     getProducts: async () => {
       const data = await getProducts();
-      set({ state: { products: data } });
+      set((state) => (state.state.products = data));
     },
     createProduct: async (data) => {
       const response = await createProduct(data);

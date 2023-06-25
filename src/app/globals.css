@@ -2,7 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  min-width: 100dvw;
-  min-height: 100dvh;
+* {
+  scrollbar-width: none;
+  scrollbar-color: linear-gradient(to right, #d3f5cf, #a8dbfa, #635ee2);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #80808060;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, #d3f5cf, #a8dbfa, #635ee2);
+  border-radius: 8px;
 }

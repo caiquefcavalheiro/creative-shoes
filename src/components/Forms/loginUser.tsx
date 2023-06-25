@@ -3,10 +3,10 @@
 import { useModalState } from "@/hooks/ModalStates/state";
 import { useUser } from "@/hooks/UserStates/state";
 import { userLogin, userSchemaLogin } from "@/schemas/user/schema";
-import { useForm } from "react-hook-form";
-import Input from "../Input/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/ToastStates/state";
+import { useForm } from "react-hook-form";
+import Input from "../Input/input";
 
 export default function LoginUserForm() {
   const {
@@ -37,7 +37,9 @@ export default function LoginUserForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col justify-center gap-7">
+    <form
+      onSubmit={onSubmit}
+      className="flex flex-col justify-center gap-7 animate-modal-appear">
       <Input
         type="text"
         placeholder="Digite seu email"

@@ -6,12 +6,14 @@ import Header from "@/components/Header/header";
 import ModalContainer from "@/components/Modal/modalContainer";
 import { useModalState } from "@/hooks/ModalStates/state";
 import CreateProductForm from "@/components/Forms/createProduct";
+import ProductList from "@/components/ProductList/productList";
+import ProductDetails from "@/components/ProductList/ProductDetails/productDetails";
 
 export default function Home() {
   const modalState = useModalState();
 
   return (
-    <main className="bg-cover bg-galaxy w-[100vw] h-[100vh]">
+    <main className="bg-cover bg-galaxy w-[100vw] h-[100vh] relative">
       <Header></Header>
       <ModalContainer
         title="Login"
@@ -31,6 +33,13 @@ export default function Home() {
         setModalOpen={modalState.actions.setProductState}>
         <CreateProductForm></CreateProductForm>
       </ModalContainer>
+      <ModalContainer
+        title="Detalhes do Produto"
+        modalOpen={modalState.productModalState}
+        setModalOpen={modalState.actions.setModalProductState}>
+        <ProductDetails></ProductDetails>
+      </ModalContainer>
+      <ProductList></ProductList>
     </main>
   );
 }
