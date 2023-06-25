@@ -1,13 +1,35 @@
 "use client";
 
 import { useModalState } from "@/hooks/ModalStates/state";
-import { useState } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { FaShoppingCart } from "react-icons/fa";
+import { useProduct } from "@/hooks/ProductStates/state";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const modalState = useModalState();
+
+  const {
+    actions: { getProcutsByName, getProducts },
+  } = useProduct();
+
+  const handleSearch = useCallback(() => {
+    if (search) {
+      getProcutsByName(search);
+    } else {
+      getProducts();
+    }
+  }, [getProcutsByName, getProducts, search]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleSearch();
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [search, handleSearch]);
 
   return (
     <header className="gap-4 flex flex-col lg:flex-row center justify-around bg-transparent w-full p-4">
@@ -16,6 +38,7 @@ export default function Header() {
       </h1>
       <div className="flex justify-center">
         <input
+          onChange={(event) => setSearch(event.target.value)}
           className="p-3 min-w-[250px] max-w-[600px] rounded-lg text-center text-sm placeholder-black"
           type="text"
           placeholder="O que está procurando..."

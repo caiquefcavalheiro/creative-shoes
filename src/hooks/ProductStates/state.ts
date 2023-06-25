@@ -16,6 +16,7 @@ interface useProductProps {
   };
   actions: {
     getProducts: () => Promise<void>;
+    getProcutsByName: (name: string) => Promise<void>;
     createProduct: (data: productRegister) => Promise<productResponse>;
     patchProduct: (id: string, data: productPatch) => Promise<productPatch>;
     deleteProduct: (id: string) => Promise<void>;
@@ -28,6 +29,19 @@ const getProducts = async () => {
     .get("api/products")
     .then((response) => response.data);
   return data;
+};
+
+const getProductByName = async (name: string) => {
+  const response = await axios
+    .get(`api/products/name/${name}`)
+    .then((response) => response.data)
+    .catch((err) => err);
+
+  if (response instanceof AxiosError) {
+    throw new Error(response.response?.data.message);
+  }
+
+  return response;
 };
 
 const createProduct = async (data: productRegister) => {
@@ -71,8 +85,9 @@ export const useProduct = create<useProductProps>((set) => ({
     products: [],
   },
   actions: {
-    selectProduct: (data) => {
-      set((state) => (state.state.product = data));
+    getProcutsByName: async (name) => {
+      const data = await getProductByName(name);
+      set((state) => (state.state.products = data));
     },
     getProducts: async () => {
       const data = await getProducts();
@@ -88,6 +103,9 @@ export const useProduct = create<useProductProps>((set) => ({
     },
     deleteProduct: async (id) => {
       await deleteProduct(id);
+    },
+    selectProduct: (data) => {
+      set((state) => (state.state.product = data));
     },
   },
 }));

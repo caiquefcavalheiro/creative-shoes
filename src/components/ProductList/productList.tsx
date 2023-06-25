@@ -1,17 +1,22 @@
 import { useProduct } from "@/hooks/ProductStates/state";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard/productCard";
 
 import { motion } from "framer-motion";
 
 export default function ProductList() {
+  const [message, setMessage] = useState("Carregando produtos....");
   const {
     state: { products },
     actions: { getProducts },
   } = useProduct();
 
   useEffect(() => {
+    setMessage("Carregando produtos....");
     getProducts();
+    setTimeout(() => {
+      setMessage("Nenhum produto encontrado...");
+    }, 1000);
   }, [getProducts]);
 
   return products.length > 0 ? (
@@ -26,7 +31,7 @@ export default function ProductList() {
     </motion.div>
   ) : (
     <motion.div className="flex justify-center items-center text-4xl text-white h-[70vh] lg:h-[88vh]">
-      Carregando produtos....
+      {message}
     </motion.div>
   );
 }
