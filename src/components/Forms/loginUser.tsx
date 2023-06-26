@@ -25,8 +25,7 @@ export default function LoginUserForm() {
 
   const onSubmit = handleSubmit(async (data: userLogin) => {
     try {
-      const response = await loginUser(data);
-      localStorage.setItem("@token", JSON.stringify(response));
+      await loginUser(data);
       modalState.actions.setLoginState(false);
       success("Logado com sucesso");
     } catch (err) {

@@ -7,6 +7,7 @@ import {
   userRegister,
   usersResponse,
 } from "../../schemas/user/schema";
+import { setCookie } from "nookies";
 
 interface useUsersProps {
   state: {
@@ -40,14 +41,16 @@ const createUser = async (data: userRegister) => {
 const loginUser = async (data: userLogin) => {
   const response = await axios
     .post("/api/login", data)
-    .then((response) => response)
+    .then((response) => response.data)
     .catch((error) => error);
 
   if (response instanceof AxiosError) {
     throw new Error(response.response?.data.message);
   }
 
-  return response.data;
+  setCookie(undefined, "creative-shoes", response, { maxAge: 60 * 60 * 24 }); // 24 hour
+
+  return response;
 };
 
 export const useUser = create<useUsersProps>((set) => ({

@@ -1,7 +1,9 @@
 "use client";
 
+import { useCart } from "@/hooks/CartStates/state";
 import { useModalState } from "@/hooks/ModalStates/state";
 import { useProduct } from "@/hooks/ProductStates/state";
+import { useToast } from "@/hooks/ToastStates/state";
 import { productResponse } from "@/schemas/products/schema";
 import { motion } from "framer-motion";
 
@@ -10,7 +12,9 @@ interface ProductProps {
 }
 
 export default function ProductCard({ product }: ProductProps) {
-  const { name, price, image } = product;
+  const { id, name, price, image } = product;
+
+  const { error, success } = useToast();
 
   const {
     actions: { selectProduct },
@@ -19,6 +23,21 @@ export default function ProductCard({ product }: ProductProps) {
   const {
     actions: { setModalProductState },
   } = useModalState();
+
+  const {
+    actions: { addToCart },
+  } = useCart();
+
+  const handleBuy = async () => {
+    try {
+      await addToCart(id);
+      success("Produto adicionado ao carrinho");
+    } catch (err) {
+      if (err instanceof Error) {
+        error(err.message);
+      }
+    }
+  };
 
   return (
     <motion.div
@@ -55,7 +74,7 @@ export default function ProductCard({ product }: ProductProps) {
             </motion.p>
           </motion.div>
           <motion.button
-            onClick={() => {}}
+            onClick={handleBuy}
             className="bg-black-opacity60 text-white p-2 rounded-lg hover:bg-white hover:text-black transition-all font-medium">
             Comprar
           </motion.button>

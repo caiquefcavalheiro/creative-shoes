@@ -24,6 +24,14 @@ async function POST(request: Request) {
 
   const responseUser = userSchemaResponse.parse(user);
 
+  await prisma.order.create({
+    data: {
+      quantity: 0,
+      totalPrice: 0,
+      user: { connect: { id: user.id } },
+    },
+  });
+
   return NextResponse.json(responseUser, { status: 201 });
 }
 

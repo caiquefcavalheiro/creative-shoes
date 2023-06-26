@@ -72,7 +72,8 @@ const patchProduct = async (id: string, data: productPatch) => {
 const deleteProduct = async (id: string) => {
   const response = await axios
     .delete(`api/products/${id}`)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((err) => err);
 
   if (response instanceof AxiosError) {
     throw new Error(response.response?.data.message);

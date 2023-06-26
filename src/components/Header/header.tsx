@@ -5,15 +5,24 @@ import { useCallback, useEffect, useState, useTransition } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { FaShoppingCart } from "react-icons/fa";
 import { useProduct } from "@/hooks/ProductStates/state";
+import { parseCookies, destroyCookie } from "nookies";
+import { useCart } from "@/hooks/CartStates/state";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
   const modalState = useModalState();
 
+  const { "creative-shoes": token } = parseCookies();
+
   const {
     actions: { getProcutsByName, getProducts },
   } = useProduct();
+
+  const {
+    cart,
+    actions: { getUserCart },
+  } = useCart();
 
   const handleSearch = useCallback(() => {
     if (search) {
@@ -22,6 +31,10 @@ export default function Header() {
       getProducts();
     }
   }, [getProcutsByName, getProducts, search]);
+
+  useEffect(() => {
+    getUserCart();
+  }, [getUserCart]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -47,9 +60,8 @@ export default function Header() {
       <div className="flex items-center w-full lg:w-48 justify-evenly gap-3 cursor-pointer">
         <div className="relative">
           <FaShoppingCart color={"#ffffff"} size={40}></FaShoppingCart>
-          {/* Colocar a logica para caso exista um produto no carrinho adicionar a quantidade */}
           <span className="absolute top-[-5px] right-[-5px] text-white bg-red-600 rounded-full px-[1px] text-xs">
-            0
+            {cart.length}
           </span>
         </div>
         <div
@@ -61,18 +73,32 @@ export default function Header() {
               className={`${
                 menuOpen ? "flex" : "hidden"
               } absolute flex-col w-[200px] top-12 lg:right-auto animate-menu-open z-10`}>
-              <button
-                onClick={() => {
-                  modalState.actions.setRegisterState(true);
-                }}
-                className="p-2 bg-black-opacity90 text-white border-b-2 solid border-white rounded-t-lg">
-                Criar Conta
-              </button>
-              <button
-                onClick={() => modalState.actions.setLoginState(true)}
-                className="p-2 bg-black-opacity90 text-white rounded-b-lg">
-                Fazer Login
-              </button>
+              {!token ? (
+                <>
+                  <button
+                    onClick={() => {
+                      modalState.actions.setRegisterState(true);
+                    }}
+                    className="p-2 bg-black-opacity90 text-white border-b-2 solid border-white rounded-t-lg">
+                    Criar Conta
+                  </button>
+
+                  <button
+                    onClick={() => modalState.actions.setLoginState(true)}
+                    className="p-2 bg-black-opacity90 text-white rounded-b-lg">
+                    Fazer Login
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    destroyCookie(undefined, "creative-shoes");
+                    getUserCart();
+                  }}
+                  className="p-2 bg-black-opacity90 text-white rounded-b-lg">
+                  Sair da Conta
+                </button>
+              )}
             </menu>
           ) : (
             <></>
