@@ -46,7 +46,7 @@ export default function ProductCard({ product }: ProductProps) {
         scale: 1.05,
       }}
       transition={{ delay: 0.1 }}
-      className="bg-white-opacity40 rounded-lg w-[339px] h-[240px] py-4 cursor-pointer">
+      className="bg-white-opacity40 rounded-lg w-[339px] h-[240px] py-4 cursor-pointer hover:neon-blue">
       <motion.li className="list-none">
         <motion.img
           onClick={() => {

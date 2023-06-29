@@ -7,11 +7,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/ToastStates/state";
 import { useForm } from "react-hook-form";
 import Input from "../Input/input";
+import { useCart } from "@/hooks/CartStates/state";
 
 export default function LoginUserForm() {
   const {
     actions: { loginUser },
   } = useUser();
+
+  const {
+    actions: { getUserCart },
+  } = useCart();
 
   const { success, error } = useToast();
 
@@ -26,6 +31,7 @@ export default function LoginUserForm() {
   const onSubmit = handleSubmit(async (data: userLogin) => {
     try {
       await loginUser(data);
+      await getUserCart();
       modalState.actions.setLoginState(false);
       success("Logado com sucesso");
     } catch (err) {

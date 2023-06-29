@@ -16,7 +16,7 @@ export default function ProductList() {
     getProducts();
     setTimeout(() => {
       setMessage("Nenhum produto encontrado...");
-    }, 1000);
+    }, 3000);
   }, [getProducts]);
 
   return products.length > 0 ? (

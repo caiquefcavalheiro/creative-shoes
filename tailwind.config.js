@@ -1,4 +1,7 @@
+const plugin = require("tailwindcss/plugin");
+
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -52,5 +55,21 @@ module.exports = {
       "modal-dissapear": "show-modal 1s ease reverse",
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ theme, addUtilities }) => {
+      const neonUtilies = {};
+      const colors = theme("colors");
+      for (const color in colors) {
+        if (typeof colors[color] === "object") {
+          const color1 = colors[color]["500"];
+          const color2 = colors[color]["700"];
+          neonUtilies[`.neon-${color}`] = {
+            boxShadow: `0 0 5px ${color1}, 0 0 20px ${color2}`,
+          };
+        }
+      }
+      console.log(neonUtilies, "neon");
+      addUtilities(neonUtilies);
+    }),
+  ],
 };
