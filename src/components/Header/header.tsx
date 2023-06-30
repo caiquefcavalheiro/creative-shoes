@@ -72,7 +72,11 @@ export default function Header() {
         <div
           className="relative"
           onClick={() => {
-            router.push("/cart");
+            if (token) {
+              router.push("/cart");
+            } else {
+              modalState.actions.setLoginState(true);
+            }
           }}>
           <FaShoppingCart color={"#ffffff"} size={40}></FaShoppingCart>
           <span className="absolute top-[-5px] right-[-5px] text-white bg-red-600 rounded-full px-[1px] text-xs">
