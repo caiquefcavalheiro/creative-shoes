@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 interface useToastProps {
   success: (message: string) => void;
   error: (message: string) => void;
+  warning: (message: string) => void;
 }
 
 export const useToast = create<useToastProps>((set) => ({
@@ -18,6 +19,13 @@ export const useToast = create<useToastProps>((set) => ({
     toast.error(message, {
       position: "top-right",
       style: { background: "#e64c4c", color: "#ffffff" },
+      duration: 3000,
+    });
+  },
+  warning: (message: string) => {
+    toast.success(message, {
+      position: "top-right",
+      style: { background: "#ffbe76" },
       duration: 3000,
     });
   },

@@ -1,7 +1,7 @@
 "use client";
 
 import { useModalState } from "@/hooks/ModalStates/state";
-import { useCallback, useEffect, useState, useTransition } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import { FaShoppingCart } from "react-icons/fa";
 import { useProduct } from "@/hooks/ProductStates/state";
@@ -21,6 +21,7 @@ export default function Header() {
 
   const {
     cart,
+    cartQuantity,
     actions: { getUserCart },
   } = useCart();
 
@@ -61,7 +62,7 @@ export default function Header() {
         <div className="relative">
           <FaShoppingCart color={"#ffffff"} size={40}></FaShoppingCart>
           <span className="absolute top-[-5px] right-[-5px] text-white bg-red-600 rounded-full px-[1px] text-xs">
-            {cart.length}
+            {cartQuantity}
           </span>
         </div>
         <div

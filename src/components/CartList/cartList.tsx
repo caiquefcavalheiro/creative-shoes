@@ -1,34 +1,35 @@
 "use client";
 
-import { useProduct } from "@/hooks/ProductStates/state";
 import { useEffect, useState } from "react";
-import ProductCard from "./ProductCard/productCard";
 
 import { motion } from "framer-motion";
+import CartCard from "./CartCard/cartCard";
+import { useCart } from "@/hooks/CartStates/state";
 
-export default function ProductList() {
+export default function CartList() {
   const [message, setMessage] = useState("Carregando produtos....");
+
   const {
-    state: { products },
-    actions: { getProducts },
-  } = useProduct();
+    cart,
+    actions: { getUserCart },
+  } = useCart();
 
   useEffect(() => {
     setMessage("Carregando produtos....");
-    getProducts();
+    getUserCart();
     setTimeout(() => {
-      setMessage("Nenhum produto encontrado...");
+      setMessage("Seu carrinho está vazio");
     }, 3000);
-  }, [getProducts]);
+  }, [getUserCart]);
 
-  return products.length > 0 ? (
+  return cart.length > 0 ? (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
       className="w-[100vw] flex flex-wrap mt-[30px] pt-[30px] h-[75vh] lg:h-[80vh] xl:h-[85vh] gap-8 justify-center content-start overflow-y-auto 3xl:w-[80vw] 3xl:m-margin-60-auto">
-      {products.map((product) => {
-        return <ProductCard key={product.id} product={product} />;
+      {cart.map((order) => {
+        return <CartCard key={order.id} order={order} />;
       })}
     </motion.div>
   ) : (

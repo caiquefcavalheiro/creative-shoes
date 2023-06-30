@@ -25,6 +25,8 @@ async function GET(request: Request) {
 
       const userOrders = await prisma.orderProduct.findMany({
         where: { orderId: verifyUser?.Order?.id },
+        include: { product: true },
+        orderBy: { quantity: "desc" },
       });
 
       return NextResponse.json(userOrders);
