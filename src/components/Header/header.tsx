@@ -7,11 +7,14 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useProduct } from "@/hooks/ProductStates/state";
 import { parseCookies, destroyCookie } from "nookies";
 import { useCart } from "@/hooks/CartStates/state";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState("");
   const modalState = useModalState();
+  const router = useRouter();
+  const path = usePathname();
 
   const { "creative-shoes": token } = parseCookies();
 
@@ -20,7 +23,6 @@ export default function Header() {
   } = useProduct();
 
   const {
-    cart,
     cartQuantity,
     actions: { getUserCart },
   } = useCart();
@@ -47,7 +49,11 @@ export default function Header() {
 
   return (
     <header className="gap-4 flex flex-col lg:flex-row center justify-around bg-transparent w-full p-4">
-      <h1 className="text-[2rem] text-center font-bold text-white">
+      <h1
+        className="text-[2rem] text-center font-bold text-white cursor-pointer"
+        onClick={() => {
+          router.push("/");
+        }}>
         Creative Store Shoes
       </h1>
       <div className="flex justify-center">
@@ -59,12 +65,27 @@ export default function Header() {
         />
       </div>
       <div className="flex items-center w-full lg:w-48 justify-evenly gap-3 cursor-pointer">
-        <div className="relative">
+        <div
+          className="relative"
+          onClick={() => {
+            router.push("/cart");
+          }}>
           <FaShoppingCart color={"#ffffff"} size={40}></FaShoppingCart>
           <span className="absolute top-[-5px] right-[-5px] text-white bg-red-600 rounded-full px-[1px] text-xs">
             {cartQuantity}
           </span>
         </div>
+        {path === "/cart" ? (
+          <div
+            className="bg-white-opacity80 p-4 rounded-lg text-black font-medium"
+            onClick={() => {
+              router.push("/");
+            }}>
+            Pagina Inicial
+          </div>
+        ) : (
+          <></>
+        )}
         <div
           className="relative flex items-center justify-center"
           onClick={() => setMenuOpen((state) => !state)}>

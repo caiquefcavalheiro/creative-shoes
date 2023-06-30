@@ -21,6 +21,7 @@ module.exports = {
         "black-opacity90": "#000000c4",
         "black-opacity60": "#00000060",
         "white-opacity40": "#ffffff40",
+        "white-opacity80": "#ffffff80",
       },
       margin: {
         "margin-0-auto": "0 auto",

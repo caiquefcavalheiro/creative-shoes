@@ -86,7 +86,12 @@ export default function CartCard({ order }: ProductProps) {
               })}
             </motion.p>
           </motion.div>
-          <motion.p className="text-black text-2xl font-medium">
+          <motion.p
+            className="text-black text-2xl font-medium"
+            onClick={() => {
+              setModalProductState(true);
+              selectProduct(order.product);
+            }}>
             {order.quantity}
           </motion.p>
           <motion.div className="flex gap-2">
