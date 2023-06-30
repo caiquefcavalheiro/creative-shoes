@@ -59,7 +59,7 @@ export default function CartCard({ order }: ProductProps) {
         scale: 1.05,
       }}
       transition={{ delay: 0.1 }}
-      className="bg-white-opacity40 rounded-lg w-[339px] h-[240px] py-4 cursor-pointer hover:neon-blue">
+      className="bg-white-opacity40 rounded-lg w-[339px] h-[265px] pt-4 cursor-pointer hover:neon-blue">
       <motion.li className="list-none">
         <motion.img
           onClick={() => {
@@ -106,6 +106,17 @@ export default function CartCard({ order }: ProductProps) {
               <IoIosRemoveCircleOutline size={26} />
             </motion.button>
           </motion.div>
+        </motion.div>
+        <motion.div className="flex justify-around border-t-2 border-dotted border-black py-2">
+          <motion.p className="text-black text-xl font-medium text-center">
+            Total
+          </motion.p>
+          <motion.p className="text-black text-xl font-medium text-center">
+            {(price * order.quantity).toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
+          </motion.p>
         </motion.div>
       </motion.li>
     </motion.div>

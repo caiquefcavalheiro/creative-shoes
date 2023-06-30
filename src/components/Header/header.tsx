@@ -56,15 +56,19 @@ export default function Header() {
         }}>
         Creative Store Shoes
       </h1>
-      <div className="flex justify-center">
-        <input
-          onChange={(event) => setSearch(event.target.value)}
-          className="p-3 min-w-[250px] max-w-[600px] rounded-lg text-center text-sm placeholder-black"
-          type="text"
-          placeholder="O que está procurando..."
-        />
-      </div>
-      <div className="flex items-center w-full lg:w-48 justify-evenly gap-3 cursor-pointer">
+      {path === "/" ? (
+        <div className="flex justify-center">
+          <input
+            onChange={(event) => setSearch(event.target.value)}
+            className="p-3 min-w-[250px] max-w-[600px] rounded-lg text-center text-sm placeholder-black"
+            type="text"
+            placeholder="O que está procurando..."
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="flex items-center w-full lg:max-w-[400px] justify-evenly gap-3 cursor-pointer">
         <div
           className="relative"
           onClick={() => {
@@ -104,7 +108,6 @@ export default function Header() {
                     className="p-2 bg-black-opacity90 text-white border-b-2 solid border-white rounded-t-lg">
                     Criar Conta
                   </button>
-
                   <button
                     onClick={() => modalState.actions.setLoginState(true)}
                     className="p-2 bg-black-opacity90 text-white rounded-b-lg">
@@ -112,14 +115,28 @@ export default function Header() {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => {
-                    destroyCookie(undefined, "creative-shoes");
-                    getUserCart();
-                  }}
-                  className="p-2 bg-black-opacity90 text-white rounded-b-lg">
-                  Sair da Conta
-                </button>
+                <>
+                  <button
+                    onClick={() => {
+                      if (path === "/") {
+                        router.push("/cart");
+                      } else {
+                        router.push("/");
+                      }
+                    }}
+                    className="p-2 bg-black-opacity90 text-white rounded-t-lg border-b-2 solid border-white">
+                    {path === "/" ? "Carrinho" : "Pagina Principal"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      destroyCookie(undefined, "creative-shoes");
+                      getUserCart();
+                      router.push("/");
+                    }}
+                    className="p-2 bg-black-opacity90 text-white rounded-b-lg">
+                    Sair da Conta
+                  </button>
+                </>
               )}
             </menu>
           ) : (
