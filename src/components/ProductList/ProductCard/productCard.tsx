@@ -21,7 +21,7 @@ export default function ProductCard({ product }: ProductProps) {
   } = useProduct();
 
   const {
-    actions: { setModalProductState },
+    actions: { setModalProductState, setLoginState },
   } = useModalState();
 
   const {
@@ -34,7 +34,14 @@ export default function ProductCard({ product }: ProductProps) {
       success("Produto adicionado ao carrinho");
     } catch (err) {
       if (err instanceof Error) {
-        error(err.message);
+        if (
+          err.message ===
+          "Você precisa estar logado para adicionar produtos ao carrinho"
+        ) {
+          setLoginState(true);
+        } else {
+          error(err.message);
+        }
       }
     }
   };

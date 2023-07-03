@@ -69,7 +69,6 @@ module.exports = {
           };
         }
       }
-      console.log(neonUtilies, "neon");
       addUtilities(neonUtilies);
     }),
   ],
