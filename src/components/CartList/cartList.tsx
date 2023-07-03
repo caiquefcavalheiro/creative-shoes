@@ -28,7 +28,7 @@ export default function CartList() {
   );
 
   return cart.length > 0 ? (
-    <motion.div className="flex flex-col">
+    <motion.div className="flex flex-col h-[85vh]">
       <motion.p className="w-[300px] self-center p-4 mr-4 bg-white-opacity40 rounded-lg text-center font-medium text-xl">
         Total Carrinho: R$ {cartTotal}
       </motion.p>
@@ -36,7 +36,7 @@ export default function CartList() {
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="w-[100vw] flex flex-wrap mt-[30px] pt-[30px] h-[75vh] lg:h-[80vh] xl:h-[85vh] gap-8 justify-center content-start overflow-y-auto 3xl:w-[80vw] 3xl:m-margin-60-auto">
+        className="w-[100vw] flex flex-wrap mt-[30px] h-[75vh] lg:h-[80vh] xl:h-[85vh] pt-[30px] gap-8 justify-center content-start overflow-y-auto 3xl:w-[80vw] 3xl:m-margin-60-auto">
         {cart.map((order) => {
           return <CartCard key={order.id} order={order} />;
         })}
